@@ -27,6 +27,24 @@ A modern web app built using **React**, **Mantine**, and **React Router**, allow
 - **Resource List**: Displays a list of available Star Wars resources (e.g., characters, starships, etc.).
 - **Resource Detail**: After selecting a resource, users can view detailed information, including related data like films, species, and starships.
 
+## Screenshots
+
+### Landing Page
+
+![Landing Page](./screenshots/Landing.png)
+
+### Login Page
+
+![Login Page](./screenshots/Login.png)
+
+### Resource List
+
+![Resource List](./screenshots/List.png)
+
+### Resource Detail
+
+![Resource Detail](./screenshots/Details.png)  
+
 ## Contributing
 
 If you want to contribute to this project, feel free to fork the repository, make changes, and submit a pull request.
