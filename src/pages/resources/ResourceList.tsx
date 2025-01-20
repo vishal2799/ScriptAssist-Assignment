@@ -14,19 +14,22 @@ const ResourceListPage = () => {
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState<'name' | 'height' | 'mass'>('name');
   const [filterGender, setFilterGender] = useState<string | null>(null);
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
 
   const sortData = (data: any[]) => {
     return data.sort((a, b) => {
-      if (sortBy === 'name') {
-        return a.name.localeCompare(b.name);
-      } else if (sortBy === 'height') {
-        return parseInt(a.height) - parseInt(b.height);
-      } else if (sortBy === 'mass') {
-        return parseInt(a.mass) - parseInt(b.mass);
+      const valueA = sortBy === 'name' ? a.name : parseInt(a[sortBy]);
+      const valueB = sortBy === 'name' ? b.name : parseInt(b[sortBy]);
+  
+      if (sortOrder === 'asc') {
+        return valueA > valueB ? 1 : -1;
+      } else {
+        return valueA < valueB ? 1 : -1;
       }
-      return 0;
     });
   };
+  
 
  
   const filteredData = (resourceList || []).filter((resource: any) => {
@@ -82,43 +85,52 @@ const ResourceListPage = () => {
       <Container mt={20}>
       
       
-      <Group mb="md" justify='space-between'>
-        
-        <TextInput
-        label="Search by name"
-          placeholder="Typing..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{ width: '300px' }}
-        />
+      <Group mb="md" justify="space-between">
+  <TextInput
+    label="Search by name"
+    placeholder="Typing..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+    style={{ width: '300px' }}
+  />
 
-     
-        <Select
-          label="Filter by gender"
-          value={filterGender}
-          onChange={setFilterGender}
-          data={[
-            { value: '', label: 'All' },
-            { value: 'male', label: 'Male' },
-            { value: 'female', label: 'Female' },
-            { value: 'n/a', label: 'N/A' },
-          ]}
-          style={{ width: '200px' }}
-        />
+  <Select
+    label="Filter by gender"
+    value={filterGender}
+    onChange={setFilterGender}
+    data={[
+      { value: '', label: 'All' },
+      { value: 'male', label: 'Male' },
+      { value: 'female', label: 'Female' },
+      { value: 'n/a', label: 'N/A' },
+    ]}
+    style={{ width: '200px' }}
+  />
 
-      
-        <Select
-          label="Sort by"
-          value={sortBy}
-          onChange={(value) => setSortBy(value as 'name' | 'height' | 'mass')}
-          data={[
-            { value: 'name', label: 'Name' },
-            { value: 'height', label: 'Height' },
-            { value: 'mass', label: 'Mass' },
-          ]}
-          style={{ width: '200px' }}
-        />
-      </Group>
+  <Select
+    label="Sort by"
+    value={sortBy}
+    onChange={(value) => setSortBy(value as 'name' | 'height' | 'mass')}
+    data={[
+      { value: 'name', label: 'Name' },
+      { value: 'height', label: 'Height' },
+      { value: 'mass', label: 'Mass' },
+    ]}
+    style={{ width: '200px' }}
+  />
+
+  <Select
+    label="Sort order"
+    value={sortOrder}
+    onChange={(value) => setSortOrder(value as 'asc' | 'desc')}
+    data={[
+      { value: 'asc', label: 'Ascending' },
+      { value: 'desc', label: 'Descending' },
+    ]}
+    style={{ width: '200px' }}
+  />
+</Group>
+
 
       
       <Table.ScrollContainer minWidth={500}>
