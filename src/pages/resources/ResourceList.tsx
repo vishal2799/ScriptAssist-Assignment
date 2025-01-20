@@ -19,13 +19,20 @@ const ResourceListPage = () => {
 
   const sortData = (data: any[]) => {
     return data.sort((a, b) => {
-      const valueA = sortBy === 'name' ? a.name : parseInt(a[sortBy]);
-      const valueB = sortBy === 'name' ? b.name : parseInt(b[sortBy]);
+      const parseValue = (value: string) => {
+        if (!value || value === "unknown") return Infinity; 
+        return parseFloat(value.replace(/,/g, "")); 
+      };
   
-      if (sortOrder === 'asc') {
-        return valueA > valueB ? 1 : -1;
+      const valueA = sortBy === "name" ? a.name : parseValue(a[sortBy]);
+      const valueB = sortBy === "name" ? b.name : parseValue(b[sortBy]);
+  
+      if (sortBy === "name") {
+        return sortOrder === "asc"
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
       } else {
-        return valueA < valueB ? 1 : -1;
+        return sortOrder === "asc" ? valueA - valueB : valueB - valueA;
       }
     });
   };
